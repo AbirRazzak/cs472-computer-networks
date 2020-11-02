@@ -17,7 +17,7 @@ class FTPConnection:
         :param ip: IP Address to connect to
         :param port: Port number to connect to
         """
-        self.server_socket.connect((ip, port))
+        self.server_socket.connect((ip, int(port)))
         self.server_socket.settimeout(__TIMEOUT__)
 
     def get_server_response(self):
