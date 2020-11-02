@@ -4,6 +4,7 @@ import socket
 import logger
 import threading
 import server
+import dnsresolver
 
 
 __TIMEOUT__ = 1.0
@@ -44,7 +45,7 @@ def start():
 
     server_logger = logger.Logger(sys.argv[1])
     server_socket = create_socket()
-    msg = "Starting FTP Server on {0}:{1}".format(socket.gethostbyname(socket.gethostname()), int(sys.argv[2]))
+    msg = "Starting FTP Server on {0}:{1}".format(dnsresolver.lookup_ipaddr(socket.gethostname()), int(sys.argv[2]))
     display_and_log(msg, server_logger)
 
     while True:
