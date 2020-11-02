@@ -1,0 +1,7 @@
+11/01/2020 21:06:39.522504 Starting FTP Server on 192.168.1.13:2121
+11/01/2020 21:06:49.446769 New client connection from 192.168.1.13:63821
+11/01/2020 21:06:49.447766 Error thrown on server! Error: thread.__init__() not called
+11/01/2020 21:08:22.950407 Starting FTP Server on 192.168.1.13:2121
+11/01/2020 21:08:24.815484 New client connection from 192.168.1.13:63830
+11/01/2020 21:08:24.816481 Sent to client at ('192.168.1.13', 63830): 220 Connected to FTP server.
+
