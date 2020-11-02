@@ -9,9 +9,18 @@ https://stackoverflow.com/questions/13180941/how-to-kill-a-while-loop-with-a-key
 - 0 - Code ran and exited successfully
 - 1 - Error in Command Line Arguments
 
+## authentication.py
+
+I was too lazy to set up a database, and honestly thought it would be too overkill and out of scope for this assignment.
+Instead, this python module will store example username and passwords that the FTP server will use as a dictionary.
+The module will lookup usernames and match the passwords together.
+None of this is encrypted because I also think that's overkill for this assignment.
+In an actual setting, all of this should be encrypted with hashes and proper storage in a secure format.
+
 ## logger.py
 
 The main chunk of code of the logger comes from the logger class in homework 2.
+
 
 # Resources
 

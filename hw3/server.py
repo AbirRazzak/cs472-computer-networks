@@ -2,6 +2,7 @@ import socket
 import threading
 import logger
 import output
+import authentication
 
 __TIMEOUT__ = 1.0
 
@@ -19,6 +20,7 @@ class FTPServer(threading.Thread):
         self.address = address
         self.logger = log
         self.keep_connection = True
+        self.user = None
 
     def send_to_client(self, msg):
         """
@@ -71,6 +73,26 @@ class FTPServer(threading.Thread):
                 break
         return response
 
-    def perform_action(self, command):
+    def perform_action(self, full_command):
+        command_split = full_command.split()
+        command = command_split[0]
         # TODO: Implement every support command here
-        pass
+        if command.upper() == "USER":
+            self.user_action(command_split[1])
+        if command.upper() == "PASS":
+            self.pass_action(command_split[1])
+
+    def user_action(self, user):
+        self.user = user
+        self.output_and_log("Set user for {0} to {1}".format(self.address, user))
+        self.send_to_client("331 Please specify the password.")
+
+    def pass_action(self, password):
+        # Must provide USER before entering PASS
+        if not self.user:
+            self.send_to_client("530 Provide USER before PASS.")
+        else:
+            if authentication.auth_user(self.user, password):
+                self.send_to_client("230 Login successful")
+            else:
+                self.send_to_client("530 Authentication Failed")
