@@ -90,6 +90,8 @@ class FTPServer(threading.Thread):
             self.pwd_action()
         if command.upper() == "CWD":
             self.cwd_action(command_split[1])
+        if command.upper() == "LIST":
+            self.list_action()
 
     def user_action(self, user):
         """
@@ -138,3 +140,9 @@ class FTPServer(threading.Thread):
             self.send_to_client("250 Current working directory changed to {0}".format(path))
         else:
             self.send_to_client("550 Invalid directory given")
+
+    def list_action(self):
+        ls = os.listdir(self.current_directory)
+        self.send_to_client("150 Sending file data")
+        for file in ls:
+            self.send_to_client(file)
