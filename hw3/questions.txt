@@ -1,0 +1,19 @@
+Abir Razzak
+CS472 HW3
+Computer Networks
+
+1. Consider a peer-to-peer file transfer protocol. Do you think it would be better or worse? Why? Give details to backup your argument
+
+Might be even worse because you don't know who you are receiving files from. None of it is encrpyted at all, so also sending files over is insecure. Peers would be able to download your file and open it without needing permission. 
+
+2. Do you think that someone could hack into your FTP server? Why or why not? Through what methods?
+
+Yes pretty easily since nothing is encrypted. For one, a user could simply navigate to where the authentication.py file is, open it, and see in plain text all the other user names and passwords on the server. The server also does not check to make sure there is no one intercepting messages; someone could easily recieve the PASS message and gain access to user accounts or hack into the client by routing their messages from my server to theirs.
+
+3. EXTRA CREDIT: Critique how FTP solves the problem of file transfer – what is good? What is bad? What is weird?
+
+FTP makes it easy to send information from a client to a server. The downside is that is it not secure, so it shouldn't be used for important information.
+
+4. EXTRA CREDIT: How hard would it be to make FTP use one channel (both command and data over the same socket) instead of two?
+
+This would require a change not only on the server, but on the client as well, thus making a change like this would be a considerable amount of work.

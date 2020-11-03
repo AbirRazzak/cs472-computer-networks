@@ -1,7 +1,108 @@
-11/01/2020 21:06:39.522504 Starting FTP Server on 192.168.1.13:2121
-11/01/2020 21:06:49.446769 New client connection from 192.168.1.13:63821
-11/01/2020 21:06:49.447766 Error thrown on server! Error: thread.__init__() not called
-11/01/2020 21:08:22.950407 Starting FTP Server on 192.168.1.13:2121
-11/01/2020 21:08:24.815484 New client connection from 192.168.1.13:63830
-11/01/2020 21:08:24.816481 Sent to client at ('192.168.1.13', 63830): 220 Connected to FTP server.
+11/02/2020 14:32:12.829527 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 14:32:45.925112 New client connection from 192.168.1.12:55381
+11/02/2020 14:32:45.927108 Sent to client at ('192.168.1.12', 55381): 220 Connected to FTP server.
 
+11/02/2020 14:32:53.684320 Received from client at ('192.168.1.12', 55381): USER amr439
+11/02/2020 14:38:37.219096 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 14:38:54.949913 New client connection from 192.168.1.12:55461
+11/02/2020 14:38:54.951906 Sent to client at ('192.168.1.12', 55461): 220 Connected to FTP server.
+
+11/02/2020 14:39:01.136563 Received from client at ('192.168.1.12', 55461): USER amr439
+11/02/2020 14:39:24.705832 Set user for ('192.168.1.12', 55461) to amr439
+11/02/2020 14:39:24.706831 Sent to client at ('192.168.1.12', 55461): 331 Please specify the password.
+
+11/02/2020 14:55:02.118551 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 14:55:08.756657 New client connection from 192.168.1.12:55635
+11/02/2020 14:55:08.757655 Sent to client at ('192.168.1.12', 55635): 220 Connected to FTP server.
+
+11/02/2020 14:56:13.954348 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 14:56:16.689762 New client connection from 192.168.1.12:55646
+11/02/2020 14:56:16.691756 Sent to client at ('192.168.1.12', 55646): 220 Connected to FTP server.
+
+11/02/2020 14:56:25.244599 Received from client at ('192.168.1.12', 55646): USER user1
+11/02/2020 14:56:25.244599 Set user for ('192.168.1.12', 55646) to user1
+11/02/2020 14:56:25.244599 Sent to client at ('192.168.1.12', 55646): 331 Please specify the password.
+
+11/02/2020 14:56:30.663371 Received from client at ('192.168.1.12', 55646): PASS pass123
+11/02/2020 14:56:30.663371 Sent to client at ('192.168.1.12', 55646): 230 Login successful
+
+11/02/2020 14:56:46.792238 Received from client at ('192.168.1.12', 55646): USER notrealuser
+11/02/2020 14:56:46.792238 Set user for ('192.168.1.12', 55646) to notrealuser
+11/02/2020 14:56:46.793201 Sent to client at ('192.168.1.12', 55646): 331 Please specify the password.
+
+11/02/2020 14:56:52.521114 Received from client at ('192.168.1.12', 55646): PASS passwordbad
+11/02/2020 14:58:33.847254 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 14:58:40.003587 New client connection from 192.168.1.12:55679
+11/02/2020 14:58:40.004585 Sent to client at ('192.168.1.12', 55679): 220 Connected to FTP server.
+
+11/02/2020 14:58:44.978445 Received from client at ('192.168.1.12', 55679): USER notreal
+11/02/2020 14:58:44.978445 Set user for ('192.168.1.12', 55679) to notreal
+11/02/2020 14:58:44.978445 Sent to client at ('192.168.1.12', 55679): 331 Please specify the password.
+
+11/02/2020 14:58:51.082770 Received from client at ('192.168.1.12', 55679): PASS passwewew
+11/02/2020 14:58:51.082770 Sent to client at ('192.168.1.12', 55679): 530 Authentication Failed
+
+11/02/2020 14:59:17.582522 Socket Error: Lost connection to client at ('192.168.1.12', 55679)
+11/02/2020 22:00:19.553436 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 22:00:48.353022 New client connection from 192.168.1.12:51651
+11/02/2020 22:00:48.354019 Sent to client at ('192.168.1.12', 51651): 220 Connected to FTP server.
+
+11/02/2020 22:01:05.625547 New client connection from 192.168.1.12:51656
+11/02/2020 22:01:05.626545 Sent to client at ('192.168.1.12', 51656): 220 Connected to FTP server.
+
+11/02/2020 22:01:14.036474 Received from client at ('192.168.1.12', 51656): USER user1
+11/02/2020 22:01:14.036474 Set user for ('192.168.1.12', 51656) to user1
+11/02/2020 22:01:14.036474 Sent to client at ('192.168.1.12', 51656): 331 Please specify the password.
+
+11/02/2020 22:01:18.437154 Received from client at ('192.168.1.12', 51656): PASS pass123
+11/02/2020 22:01:18.437154 Sent to client at ('192.168.1.12', 51656): 230 Login successful
+
+11/02/2020 22:01:26.926427 Received from client at ('192.168.1.12', 51656): HELP 
+11/02/2020 22:07:11.731241 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 22:07:16.191884 New client connection from 192.168.1.12:51707
+11/02/2020 22:07:16.192882 Sent to client at ('192.168.1.12', 51707): 220 Connected to FTP server.
+
+11/02/2020 22:07:24.345400 Received from client at ('192.168.1.12', 51707): PWD
+11/02/2020 22:07:48.220768 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 22:07:53.471081 New client connection from 192.168.1.12:51711
+11/02/2020 22:07:53.472080 Sent to client at ('192.168.1.12', 51711): 220 Connected to FTP server.
+
+11/02/2020 22:07:59.359037 Received from client at ('192.168.1.12', 51711): PWD
+11/02/2020 22:07:59.359037 Sent to client at ('192.168.1.12', 51711): 257 D:\Shared Documents\OneDrive\OneDrive - Drexel University\GitRepos\cs472-computer-networks\hw3
+
+11/02/2020 22:10:15.930690 New client connection from 192.168.1.12:51734
+11/02/2020 22:10:15.931687 Sent to client at ('192.168.1.12', 51734): 220 Connected to FTP server.
+
+11/02/2020 22:10:16.932057 Received from client at ('192.168.1.12', 51734): USER user1
+11/02/2020 22:10:16.932057 Set user for ('192.168.1.12', 51734) to user1
+11/02/2020 22:10:16.932057 Sent to client at ('192.168.1.12', 51734): 331 Please specify the password.
+
+11/02/2020 22:10:17.932720 Received from client at ('192.168.1.12', 51734): PASS pass123
+11/02/2020 22:10:17.932720 Sent to client at ('192.168.1.12', 51734): 230 Login successful
+
+11/02/2020 22:11:27.788572 Socket Error: Lost connection to client at ('192.168.1.12', 51711)
+11/02/2020 22:29:40.152715 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 22:29:43.223506 New client connection from 192.168.1.12:51941
+11/02/2020 22:29:43.225499 Sent to client at ('192.168.1.12', 51941): 220 Connected to FTP server.
+
+11/02/2020 22:29:48.776016 Received from client at ('192.168.1.12', 51941): PWD
+11/02/2020 22:29:48.776016 Sent to client at ('192.168.1.12', 51941): 257 D:\Shared Documents\OneDrive\OneDrive - Drexel University\GitRepos\cs472-computer-networks\hw3
+
+11/02/2020 22:30:14.092666 Received from client at ('192.168.1.12', 51941): CWD D:\Shared Documents\OneDrive\OneDrive - Drexel University\GitRepos\cs472-computer-networks\hw2
+11/02/2020 22:30:50.385297 Starting FTP Server on 192.168.1.12:2121
+11/02/2020 22:30:53.729245 New client connection from 192.168.1.12:51946
+11/02/2020 22:30:53.730244 Sent to client at ('192.168.1.12', 51946): 220 Connected to FTP server.
+
+11/02/2020 22:30:57.841528 Received from client at ('192.168.1.12', 51946): PWD
+11/02/2020 22:30:57.841528 Sent to client at ('192.168.1.12', 51946): 257 D:\Shared Documents\OneDrive\OneDrive - Drexel University\GitRepos\cs472-computer-networks\hw3
+
+11/02/2020 22:31:02.403079 Received from client at ('192.168.1.12', 51946): PWD
+11/02/2020 22:31:02.403079 Sent to client at ('192.168.1.12', 51946): 257 D:\Shared Documents\OneDrive\OneDrive - Drexel University\GitRepos\cs472-computer-networks\hw3
+
+11/02/2020 22:34:36.928267 Received from client at ('192.168.1.12', 51946): CWD D:
+11/02/2020 22:34:36.928267 Sent to client at ('192.168.1.12', 51946): 250 Current working directory changed to D:
+
+11/02/2020 22:35:33.864981 Received from client at ('192.168.1.12', 51946): PWD
+11/02/2020 22:35:33.864981 Sent to client at ('192.168.1.12', 51946): 257 D:
+
+11/02/2020 22:36:02.245936 Received from client at ('192.168.1.12', 51946): CWD C:\app\

@@ -1,3 +1,23 @@
+Abir Razzak
+
+CS472 - HW3
+
+Computer Networks
+
+# How to run
+
+Use 
+```py main.py log.txt 2121```
+to run the server, with a log file named `log.txt` on the localhost port `2121`.
+
+# Noteworthy Files
+
+- `log.txt` - Sample log file from the server
+- `questions.txt` - Answers the given questions from the assignment
+- `main.py` - Starting point of the program
+- `server.py` - Bulk of where the logic in the program comes from
+
+# Technical Explanations
 
 ## main.py
 
@@ -11,10 +31,10 @@ https://stackoverflow.com/questions/13180941/how-to-kill-a-while-loop-with-a-key
 
 ## authentication.py
 
-I was too lazy to set up a database, and honestly thought it would be too overkill and out of scope for this assignment.
-Instead, this python module will store example username and passwords that the FTP server will use as a dictionary.
+The prompt said to save the usernames and passwords in a file, so I decided to save them in a dictionary in a python file.
+This python module will store example username and passwords that the FTP server will use as a dictionary.
 The module will lookup usernames and match the passwords together.
-None of this is encrypted because I also think that's overkill for this assignment.
+None of this is encrypted because I think that's overkill for this assignment.
 In an actual setting, all of this should be encrypted with hashes and proper storage in a secure format.
 
 ## logger.py
