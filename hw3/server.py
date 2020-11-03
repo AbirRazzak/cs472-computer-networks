@@ -108,6 +108,8 @@ class FTPServer(threading.Thread):
             self.eprt_action(eprt_split[1], eprt_split[2], eprt_split[3])
         if command.upper() == "RETR":
             self.retr_action(command_split[1])
+        if command.upper() == "STOR":
+            self.stor_action(command_split[1])
 
     def user_action(self, user):
         """
@@ -205,4 +207,17 @@ class FTPServer(threading.Thread):
             self.send_to_client(file_contents)
         except IOError as ex:
             self.output_and_log("RETR error with {0}: {1}".format(self.address, ex))
+            self.send_to_client("550 File does not exist")
+
+    def stor_action(self, path):
+        try:
+            pass
+            file = open(path, 'w+')
+            self.send_to_client("150 File okay, start writing file contents")
+            content = str(self.client.recv(1024))
+            file.write(content)
+            file.close()
+            self.send_to_client("150 File okay, finished writing")
+        except IOError as ex:
+            self.output_and_log("STOR error with {0}: {1}".format(self.address, ex))
             self.send_to_client("550 File does not exist")
