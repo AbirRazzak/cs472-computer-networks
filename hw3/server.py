@@ -26,6 +26,9 @@ class FTPServer(threading.Thread):
         self.current_directory = os.getcwd()
         self.pasv = False
         self.epsv = False
+        self.port = 20  # default value
+        self.netport = None
+        self.netaddr = None
 
     def send_to_client(self, msg):
         """
@@ -98,6 +101,11 @@ class FTPServer(threading.Thread):
             self.pasv_action()
         if command.upper() == "EPSV":
             self.epsv_action()
+        if command.upper() == "PORT":
+            self.port_action(command_split[1])
+        if command.upper() == "EPRT":
+            eprt_split = full_command.split("|")
+            self.eprt_action(eprt_split[1], eprt_split[2], eprt_split[3])
 
     def user_action(self, user):
         """
@@ -160,3 +168,27 @@ class FTPServer(threading.Thread):
     def epsv_action(self):
         self.epsv = True
         self.send_to_client("229 Entering extended passive mode")
+
+    def port_action(self, port):
+        try:
+            if int(port) < 0 or int(port) > 65535:
+                self.send_to_client("522 Port out of range.")
+            else:
+                self.port = port
+                self.pasv = False
+                self.send_to_client("200 Valid port given")
+        except ValueError:
+            self.send_to_client("500 Invalid port number given")
+
+    def eprt_action(self, netport, netaddr, tcpport):
+        try:
+            if int(netport) == 1 or int(netport) == 2:
+                self.netport = netport
+                self.netaddr = netaddr
+                self.port = tcpport
+                self.pasv = False
+                self.send_to_client("200 Valid port given")
+            else:
+                self.send_to_client("522 Server does not support requested network protocol")
+        except ValueError:
+            self.send_to_client("500 Invalid port number given")
