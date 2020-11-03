@@ -81,13 +81,23 @@ class FTPServer(threading.Thread):
             self.user_action(command_split[1])
         if command.upper() == "PASS":
             self.pass_action(command_split[1])
+        if command.upper() == "QUIT":
+            self.quit_action()
 
     def user_action(self, user):
+        """
+        Handles the USER command from the client application
+        :param user: Username to login to the server with
+        """
         self.user = user
         self.output_and_log("Set user for {0} to {1}".format(self.address, user))
         self.send_to_client("331 Please specify the password.")
 
     def pass_action(self, password):
+        """
+        Handles the PASS command from the client application
+        :param password: Password to login to the server with
+        """
         # Must provide USER before entering PASS
         if not self.user:
             self.send_to_client("530 Provide USER before PASS.")
@@ -96,3 +106,11 @@ class FTPServer(threading.Thread):
                 self.send_to_client("230 Login successful")
             else:
                 self.send_to_client("530 Authentication Failed")
+
+    def quit_action(self):
+        """
+        Handles the QUIT command from the client application
+        """
+        self.keep_connection = False
+        self.send_to_client("221 Quitting FTP Server Connection")
+        self.client.shutdown(socket.SHUT_WR)
