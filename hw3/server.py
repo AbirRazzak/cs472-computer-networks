@@ -24,6 +24,8 @@ class FTPServer(threading.Thread):
         self.keep_connection = True
         self.user = None
         self.current_directory = os.getcwd()
+        self.pasv = False
+        self.epsv = False
 
     def send_to_client(self, msg):
         """
@@ -92,6 +94,10 @@ class FTPServer(threading.Thread):
             self.cwd_action(command_split[1])
         if command.upper() == "LIST":
             self.list_action()
+        if command.upper() == "PASV":
+            self.pasv_action()
+        if command.upper() == "EPSV":
+            self.epsv_action()
 
     def user_action(self, user):
         """
@@ -146,3 +152,11 @@ class FTPServer(threading.Thread):
         self.send_to_client("150 Sending file data")
         for file in ls:
             self.send_to_client(file)
+
+    def pasv_action(self):
+        self.pasv = True
+        self.send_to_client("227 Entering passive mode")
+
+    def epsv_action(self):
+        self.epsv = True
+        self.send_to_client("229 Entering extended passive mode")
