@@ -3,8 +3,10 @@ import threading
 import logger
 import output
 import authentication
+import os
 
 __TIMEOUT__ = 1.0
+
 
 class FTPServer(threading.Thread):
     def __init__(self, client: socket.socket, address, log: logger.Logger):
@@ -21,6 +23,7 @@ class FTPServer(threading.Thread):
         self.logger = log
         self.keep_connection = True
         self.user = None
+        self.current_directory = os.getcwd()
 
     def send_to_client(self, msg):
         """
@@ -83,6 +86,10 @@ class FTPServer(threading.Thread):
             self.pass_action(command_split[1])
         if command.upper() == "QUIT":
             self.quit_action()
+        if command.upper() == "PWD":
+            self.pwd_action()
+        if command.upper() == "CWD":
+            self.cwd_action(command_split[1])
 
     def user_action(self, user):
         """
@@ -114,3 +121,20 @@ class FTPServer(threading.Thread):
         self.keep_connection = False
         self.send_to_client("221 Quitting FTP Server Connection")
         self.client.shutdown(socket.SHUT_WR)
+
+    def pwd_action(self):
+        """
+        Handles the PWD command from the client application
+        """
+        self.send_to_client("257 {0}".format(self.current_directory))
+
+    def cwd_action(self, path):
+        # Check that given path is valid
+        if os.path.isdir(path):
+            # Change directory to the path
+            os.chdir(path)
+            # Sanitize the path and set the current directory to it
+            self.current_directory = os.path.normpath(path)
+            self.send_to_client("250 Current working directory changed to {0}".format(path))
+        else:
+            self.send_to_client("550 Invalid directory given")
