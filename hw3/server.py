@@ -27,7 +27,7 @@ class FTPServer(threading.Thread):
         self.pasv = False
         self.epsv = False
         self.port = 20  # default value
-        self.netport = None
+        self.netprt = None
         self.netaddr = None
 
     def send_to_client(self, msg):
@@ -110,6 +110,8 @@ class FTPServer(threading.Thread):
             self.retr_action(command_split[1])
         if command.upper() == "STOR":
             self.stor_action(command_split[1])
+        if command.upper() == "CDUP":
+            self.cdup_action()
 
     def user_action(self, user):
         """
@@ -149,6 +151,10 @@ class FTPServer(threading.Thread):
         self.send_to_client("257 {0}".format(self.current_directory))
 
     def cwd_action(self, path):
+        """
+        Handles the CWD command from the client application
+        :param path: Path to change current working directory
+        """
         # Check that given path is valid
         if os.path.isdir(path):
             # Change directory to the path
@@ -160,20 +166,33 @@ class FTPServer(threading.Thread):
             self.send_to_client("550 Invalid directory given")
 
     def list_action(self):
+        """
+        Handles the LIST command from the client application
+        """
         ls = os.listdir(self.current_directory)
         self.send_to_client("150 Sending file data")
         for file in ls:
             self.send_to_client(file)
 
     def pasv_action(self):
+        """
+        Handles the PASV command from the client application
+        """
         self.pasv = True
         self.send_to_client("227 Entering passive mode")
 
     def epsv_action(self):
+        """
+        Handles the EPSV command from the client application
+        """
         self.epsv = True
         self.send_to_client("229 Entering extended passive mode")
 
     def port_action(self, port):
+        """
+        Handles the PORT command from the client application
+        :param port: Port number to change to
+        """
         try:
             if int(port) < 0 or int(port) > 65535:
                 self.send_to_client("522 Port out of range.")
@@ -185,10 +204,17 @@ class FTPServer(threading.Thread):
             self.output_and_log("PORT error with {0}: {1}".format(self.address, ex))
             self.send_to_client("500 Invalid port number given")
 
-    def eprt_action(self, netport, netaddr, tcpport):
+    def eprt_action(self, netprt, netaddr, tcpport):
+        """
+        Handles the EPRT command from the client application
+        :param netport: Network protocol of extended address
+        :param netaddr: Network address of extended address
+        :param tcpport: Transport address of extended address
+        :return:
+        """
         try:
-            if int(netport) == 1 or int(netport) == 2:
-                self.netport = netport
+            if int(netprt) == 1 or int(netprt) == 2:
+                self.netprt = netprt
                 self.netaddr = netaddr
                 self.port = tcpport
                 self.pasv = False
@@ -200,6 +226,10 @@ class FTPServer(threading.Thread):
             self.send_to_client("500 Invalid port number given")
 
     def retr_action(self, path):
+        """
+        Handles the RETR command from the client application
+        :param path: Filepath in the server to retrieve file
+        """
         try:
             file = open(path, 'r')
             file_contents = file.read()
@@ -210,6 +240,10 @@ class FTPServer(threading.Thread):
             self.send_to_client("550 File does not exist")
 
     def stor_action(self, path):
+        """
+        Handles the STOR command from the client application
+        :param path: Filepath in the server to store file
+        """
         try:
             pass
             file = open(path, 'w+')
@@ -221,3 +255,13 @@ class FTPServer(threading.Thread):
         except IOError as ex:
             self.output_and_log("STOR error with {0}: {1}".format(self.address, ex))
             self.send_to_client("550 File does not exist")
+
+    def cdup_action(self):
+        """
+        Handles the CDUP command from the client application
+        """
+        # Code found at https://www.kite.com/python/answers/how-to-go-up-one-directory-in-python
+        path_parent = os.path.dirname(os.getcwd())
+        os.chdir(path_parent)
+        self.current_directory = os.getcwd()
+        self.send_to_client("250 Changed directory up")
