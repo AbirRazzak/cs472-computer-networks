@@ -106,6 +106,8 @@ class FTPServer(threading.Thread):
         if command.upper() == "EPRT":
             eprt_split = full_command.split("|")
             self.eprt_action(eprt_split[1], eprt_split[2], eprt_split[3])
+        if command.upper() == "RETR":
+            self.retr_action(command_split[1])
 
     def user_action(self, user):
         """
@@ -177,7 +179,8 @@ class FTPServer(threading.Thread):
                 self.port = port
                 self.pasv = False
                 self.send_to_client("200 Valid port given")
-        except ValueError:
+        except ValueError as ex:
+            self.output_and_log("PORT error with {0}: {1}".format(self.address, ex))
             self.send_to_client("500 Invalid port number given")
 
     def eprt_action(self, netport, netaddr, tcpport):
@@ -190,5 +193,16 @@ class FTPServer(threading.Thread):
                 self.send_to_client("200 Valid port given")
             else:
                 self.send_to_client("522 Server does not support requested network protocol")
-        except ValueError:
+        except ValueError as ex:
+            self.output_and_log("EPRT error with {0}: {1}".format(self.address, ex))
             self.send_to_client("500 Invalid port number given")
+
+    def retr_action(self, path):
+        try:
+            file = open(path, 'r')
+            file_contents = file.read()
+            self.send_to_client("150 File okay, sending file contents")
+            self.send_to_client(file_contents)
+        except IOError as ex:
+            self.output_and_log("RETR error with {0}: {1}".format(self.address, ex))
+            self.send_to_client("550 File does not exist")
