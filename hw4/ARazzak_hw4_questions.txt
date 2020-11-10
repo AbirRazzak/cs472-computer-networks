@@ -1,0 +1,24 @@
+Abir Razzak
+CS472 - Computer Networks
+HW4 Questions
+
+PART B
+-----
+
+3. Why is logging an important part of security?
+
+> More specifically, GOOD logging is an important part of security. Logging allows server maintainers to analyze connections to their servers to make sure that their users are safe from or knowledagable about cyberattacks. In the instance that someone has experienced a cyberattack, a proper log file will allow them to analyze what the attacker has done to them and when. Logging location data, time, and specific activity steps are all important aspects in security for log files. But simply logging is not enough, there needs to be proper analysis done on the log files for the log file to be of any use. Detecting suspecious location activities such as logging in from different locations in a short span of time, can help alert users that their account might be compromised.
+
+4. Do you see any problems with concurrent servers and log files? (dealing with multiple processes or threads writing to the log file at the same time)? How can you solve this problem to keep one logfile for the server even though there are multiple threads/processes trying to write?
+
+> Potential problems with concurrent servers writing to a single log file are:
+ 1) If there are too many concurrent users on the server then the log file might be busy and so the server might not be able to write to the file if the file is in use
+ 2) The log file can become very large and hard to maintain very quickly without constant upkeep
+ 3) Poorly formatted log files can become very hard to find any useful info with the constant flow of data
+ 4) If the log file becomes corrupt, it affects every concurrent connection on the server
+ 
+ To solve potential problems with concurrent servers with a single log file:
+ 1) Use a single process to write to the log file, and use a queue system to keep a backlog of pending log statements so that there is no chance that log statements are lost due to occupied file errors.
+ 2) Regularly perform maintainence on the log files such as performing backups and cleans, to ensure that log files do not become too large. This can be done through automation, or being mindful about current log files.
+ 3) Have a standard for formatting your log file that can be used with log file maintainence software so that it is easier to search for specific log statements in the future. This will also make it easier to distinguish between different concurrent connections to the server.
+ 4) Ties in with number 2, make sure to keep an eye on your log files often. Perform maintainence and use automation to check the health of log files and perform backups often in the event of corruption or unexpected bugs.
