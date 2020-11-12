@@ -19,6 +19,13 @@ PART B
  
  To solve potential problems with concurrent servers with a single log file:
  1) Use a single process to write to the log file, and use a queue system to keep a backlog of pending log statements so that there is no chance that log statements are lost due to occupied file errors.
- 2) Regularly perform maintainence on the log files such as performing backups and cleans, to ensure that log files do not become too large. This can be done through automation, or being mindful about current log files.
- 3) Have a standard for formatting your log file that can be used with log file maintainence software so that it is easier to search for specific log statements in the future. This will also make it easier to distinguish between different concurrent connections to the server.
- 4) Ties in with number 2, make sure to keep an eye on your log files often. Perform maintainence and use automation to check the health of log files and perform backups often in the event of corruption or unexpected bugs.
+ 2) Regularly perform maintenance on the log files such as performing backups and cleans, to ensure that log files do not become too large. This can be done through automation, or being mindful about current log files.
+ 3) Have a standard for formatting your log file that can be used with log file maintenance software so that it is easier to search for specific log statements in the future. This will also make it easier to distinguish between different concurrent connections to the server.
+ 4) Ties in with number 2, make sure to keep an eye on your log files often. Perform maintenance and use automation to check the health of log files and perform backups often in the event of corruption or unexpected bugs.
+
+PART C
+-----
+
+5. What are the different issues with securing the connections with IMPLICIT mode (which is a separate server listening with TLS always at port 990 by default) and EXPLICIT mode (which is the same server waiting on port 21 for special commands to turn TLS on and off)? What are the “it depends” part of the tradeoffs? Think of the data that you’re transporting, both on the command channel and data channel.
+
+> The main difference is how flexible you'd like your connection to be. Explicit mode allows the user to choose whether or not they want to send files via encryption. This allows the user to have more control over the security over their files. The downside is that then this allows files to be sent over the network insecurely. The "it depends" in this situation is whether or not you'd like your users to be able to have this option in the first place. With implicit mode the entire FTP session is encrypted, and does not allow the user to choose whether or not they would like to encrypt the transfer. This means less flexibility for the user, but also ensures that every single transfer is secure. This also means that more resources are used per transfer as computation is required to encrypt every single transfer to/from the server; rather than opting into using more resources, every transfer will be using more resources.
