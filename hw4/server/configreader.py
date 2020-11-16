@@ -5,10 +5,10 @@ def get_config_attribute(attribute):
     try:
         file = open("ftpserverd.conf", "r")
         for line in file:
-            search_term = attribute + '='
+            search_term = attribute + ' = '
             if line.startswith(search_term):
-                split = line.split('=')
-                return split[1]
+                split = line.split(' = ')
+                return split[1].strip('\n')
         file.close()
         return None
     except OSError:
