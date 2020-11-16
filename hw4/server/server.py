@@ -4,6 +4,8 @@ import logger
 import output
 import authentication
 import os
+import configreader
+import sys
 
 __TIMEOUT__ = 1.0
 
@@ -29,6 +31,22 @@ class FTPServer(threading.Thread):
         self.port = 20  # default value
         self.netprt = None
         self.netaddr = None
+        self.support_port_mode = True
+        self.support_pasv_mode = True
+
+        allow_port_mode = configreader.get_config_attribute('port_mode')
+        if allow_port_mode is not None:
+            if allow_port_mode is 'No':
+                self.support_port_mode = False
+
+        allow_pasv_mode = configreader.get_config_attribute('pasv_mode')
+        if allow_pasv_mode is not None:
+            if allow_pasv_mode is 'No':
+                self.support_pasv_mode = False
+
+        if not self.support_port_mode and not self.support_pasv_mode:
+            output.display("FATAL ERROR! Cannot disable both port_mode and pasv_mode. Update your config file.")
+            sys.exit(1)
 
     def send_to_client(self, msg):
         """
@@ -178,31 +196,40 @@ class FTPServer(threading.Thread):
         """
         Handles the PASV command from the client application
         """
-        self.pasv = True
-        self.send_to_client("227 Entering passive mode")
+        if self.support_pasv_mode:
+            self.pasv = True
+            self.send_to_client("227 Entering passive mode")
+        else:
+            self.send_to_client("502 This server does not support passive mode")
 
     def epsv_action(self):
         """
         Handles the EPSV command from the client application
         """
-        self.epsv = True
-        self.send_to_client("229 Entering extended passive mode")
+        if self.support_pasv_mode:
+            self.epsv = True
+            self.send_to_client("229 Entering extended passive mode")
+        else:
+            self.send_to_client("502 This server does not support extended passive mode")
 
     def port_action(self, port):
         """
         Handles the PORT command from the client application
         :param port: Port number to change to
         """
-        try:
-            if int(port) < 0 or int(port) > 65535:
-                self.send_to_client("522 Port out of range.")
-            else:
-                self.port = port
-                self.pasv = False
-                self.send_to_client("200 Valid port given")
-        except ValueError as ex:
-            self.output_and_log("PORT error with {0}: {1}".format(self.address, ex))
-            self.send_to_client("500 Invalid port number given")
+        if self.support_port_mode:
+            try:
+                if int(port) < 0 or int(port) > 65535:
+                    self.send_to_client("522 Port out of range.")
+                else:
+                    self.port = port
+                    self.pasv = False
+                    self.send_to_client("200 Valid port given")
+            except ValueError as ex:
+                self.output_and_log("PORT error with {0}: {1}".format(self.address, ex))
+                self.send_to_client("500 Invalid port number given")
+        else:
+            self.send_to_client("502 This server does not support port mode")
 
     def eprt_action(self, netprt, netaddr, tcpport):
         """
@@ -212,18 +239,21 @@ class FTPServer(threading.Thread):
         :param tcpport: Transport address of extended address
         :return:
         """
-        try:
-            if int(netprt) == 1 or int(netprt) == 2:
-                self.netprt = netprt
-                self.netaddr = netaddr
-                self.port = tcpport
-                self.pasv = False
-                self.send_to_client("200 Valid port given")
-            else:
-                self.send_to_client("522 Server does not support requested network protocol")
-        except ValueError as ex:
-            self.output_and_log("EPRT error with {0}: {1}".format(self.address, ex))
-            self.send_to_client("500 Invalid port number given")
+        if self.support_port_mode:
+            try:
+                if int(netprt) == 1 or int(netprt) == 2:
+                    self.netprt = netprt
+                    self.netaddr = netaddr
+                    self.port = tcpport
+                    self.pasv = False
+                    self.send_to_client("200 Valid port given")
+                else:
+                    self.send_to_client("522 Server does not support requested network protocol")
+            except ValueError as ex:
+                self.output_and_log("EPRT error with {0}: {1}".format(self.address, ex))
+                self.send_to_client("500 Invalid port number given")
+        else:
+            self.send_to_client("502 This server does not support extended port mode")
 
     def retr_action(self, path):
         """
