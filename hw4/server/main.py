@@ -5,6 +5,7 @@ import logger
 import threading
 import server
 import dnsresolver
+import configreader
 
 
 __TIMEOUT__ = 1.0
@@ -33,6 +34,12 @@ def sanitize_args():
         int(sys.argv[2])
     except ValueError:
         output.display("Port number must be an integer.")
+        sys.exit(1)
+
+
+def check_config():
+    if not configreader.check_for_config():
+        output.display("Error reading config file. Check that ftpserverd.conf exists.")
         sys.exit(1)
 
 
@@ -102,4 +109,5 @@ def create_socket():
 if __name__ == '__main__':
     check_num_args()
     sanitize_args()
+    check_config()
     start()
