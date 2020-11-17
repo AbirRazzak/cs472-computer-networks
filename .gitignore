@@ -4,3 +4,7 @@ hw2/__pycache__/
 hw3/.idea/
 
 hw3/__pycache__/
+
+.DS_Store
+
+hw4/server/__pycache__/
