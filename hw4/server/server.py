@@ -8,6 +8,7 @@ import configreader
 import sys
 
 __TIMEOUT__ = 1.0
+__LOGIN_LIMIT__ = 5
 
 
 class FTPServer(threading.Thread):
@@ -33,6 +34,7 @@ class FTPServer(threading.Thread):
         self.netaddr = None
         self.support_port_mode = True
         self.support_pasv_mode = True
+        self.failed_login_counter = 0
 
         allow_port_mode = configreader.get_config_attribute('port_mode')
         if allow_port_mode is not None:
@@ -151,8 +153,13 @@ class FTPServer(threading.Thread):
         else:
             if authentication.auth_user(self.user, password):
                 self.send_to_client("230 Login successful")
+                self.failed_login_counter = 0
             else:
                 self.send_to_client("530 Authentication Failed")
+                self.failed_login_counter += 1
+                if self.failed_login_counter == __LOGIN_LIMIT__:
+                    self.send_to_client("530 Login Failed too many times, exiting connection")
+                    self.quit_action()
 
     def quit_action(self):
         """

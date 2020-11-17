@@ -47,3 +47,21 @@ if self.support_pasv_mode:
 else:
    self.send_to_client("502 This server does not support passive mode")
 ```
+
+## Attack Protection Enhancement
+
+To prevent against brute force login attacks, I have set up a failed login attempt counter for each server thread. If a user fails to provide the correct password 5 times in a row, the connection to the client will automatically terminate and kick the client off the server. This is demonstated through the following server code logic in the `pass_action()` method:
+
+```python
+if authentication.auth_user(self.user, password):
+      self.send_to_client("230 Login successful")
+      self.failed_login_counter = 0
+else:
+      self.send_to_client("530 Authentication Failed")
+      self.failed_login_counter += 1
+      if self.failed_login_counter == __LOGIN_LIMIT__:
+         self.send_to_client("530 Login Failed too many times, exiting connection")
+         self.quit_action()
+```
+
+Here the `__LOGIN_LIMIT__` is set to 5. If you wish to change the number of allowed failed login attempts, change this global variable at the top of `server.py`.
