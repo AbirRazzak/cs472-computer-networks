@@ -2,6 +2,20 @@ Abir Razzak
 CS472 - Computer Networks
 HW4 Questions
 
+PART A
+-----
+
+1. What are the security considerations with port_mode? With pasv_mode? Why would I want one or the other (think about some of the problems that you had with the client and the server – and who calls who)? Think of the conversation between client and server. Think about how NAT changes this – is it a good thing that an application knows about IP addresses?
+
+> Response:
+ It depends on whether you want the server or the client to be specifying the port number to be setting up the data channel. With port_mode, you allow the client to pick which port number they want, where as with pasv_mode the server will be the one to decide the port number. A NAT acts as a firewall to protect clients, which makes it so that only a few select ports are accessible from the outside.
+
+2. Think about the security implications of a fixed pathname (although probably in a system directory when it would be deployed as a system service) rather than a relative (like out of the current directory). Describe the “it depends” of these two approaches.
+
+> Response:
+ A fixed pathname will be more secure than using relative pathnames as fixed pathnames are absolute and will always point to the same file no matter where in the system directory you are currently in. "Every time a resource or file is included by the application, there is a risk that an attacker may be able to include a file or remote resource you didn’t authorize." The hyperlink below explains this more in detail, but I thought that sentence was a good catch-all.
+ Source: https://owasp.org/www-community/attacks/Path_Traversal
+
 PART B
 -----
 
